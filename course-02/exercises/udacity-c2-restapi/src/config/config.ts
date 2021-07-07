@@ -1,13 +1,13 @@
 export const config = {
   "dev": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
+    "username": process.env.POSTGRES_USERNAME, //"udagramemmsdev",
+    "password": process.env.POSTGRES_PASSWORD, //"w3rmyJAG",
+    "database": process.env.POSTGRES_DATABASE, //"udagramemmsdev",
+    "host": process.env.POSTGRES_HOST, //"udagramemmsdev.ciyaqehxta3o.us-east-2.rds.amazonaws.com",
     "dialect": "postgres",
-    "aws_region": "us-east-2",
-    "aws_profile": "default",
-    "aws_media_bucket": "udagram-ruttner-dev"
+    "aws_region": process.env.AWS_REGION, //"us-east-2",
+    "aws_profile": process.env.AWS_PROFILE, //"default",
+    "aws_media_bucket": process.env.AWS_MEDIA_BUCKET //"udagram-emms-dev"
   },
   "prod": {
     "username": "",
