@@ -29,6 +29,23 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
+  app.get( "/filteredimage/", async ( req, res ) => {
+
+    let { image_url } = req.query;
+
+    if (!image_url) {
+      res.status(400).send("An image URL must be supplied as a query parameter.");
+      // Check text, HTTP code, should this be in a catch?
+      // Can I validate if this is a URL here?
+    }
+
+    let filtered = await filterImageFromURL(image_url);
+
+    console.log(filtered);
+
+    res.sendFile(filtered);
+  });
+  
   //! END @TODO1
   
   // Root Endpoint
