@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
-(async () => {
+
 
   // Init the Express application
   const app = express();
@@ -39,11 +39,13 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       // Can I validate if this is a URL here?
     }
 
-    let filtered = await filterImageFromURL(image_url);
+    filterImageFromURL(image_url)
+    .then( filtered => {
+      res.sendFile(filtered, () => {
+        deleteLocalFiles([filtered]);
+      })
+    })
 
-    console.log(filtered);
-
-    res.sendFile(filtered);
   });
   
   //! END @TODO1
@@ -60,4 +62,3 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       console.log( `server running http://localhost:${ port }` );
       console.log( `press CTRL+C to stop server` );
   } );
-})();
