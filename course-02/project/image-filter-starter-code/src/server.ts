@@ -29,25 +29,31 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
-  app.get( "/filteredimage/", async ( req, res ) => {
+  app.get( "/filteredimage/", async ( req: express.Request, res: express.Response ) => {
 
     let { image_url } = req.query;
 
     if (!image_url) {
-      res.status(400).send("An image URL must be supplied as a query parameter.");
-      // Check text, HTTP code, should this be in a catch?
-      // Can I validate if this is a URL here?
+      return res.status(400).send("An image URL must be supplied as a query parameter.");
+    }
+
+    try {
+      let _ = new URL(image_url);
+    } catch {
+      return res.status(400).send("The query parameter passed is not a valid URL.");
     }
 
     filterImageFromURL(image_url)
     .then( filtered => {
-      res.sendFile(filtered, () => {
+      return res.sendFile(filtered, () => {
         deleteLocalFiles([filtered]);
       })
     })
+    .catch( e => {
+      return res.status(422).send("Unable to process URL: " + e);
+    })
 
   });
-  
   //! END @TODO1
   
   // Root Endpoint
